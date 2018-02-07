@@ -17,7 +17,7 @@ class NowPlayViewController: UIViewController,UITableViewDataSource {
     var refresh:UIRefreshControl!
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         refresh = UIRefreshControl()
         refresh.addTarget(self, action: #selector(NowPlayViewController.didPTR(_:)), for: .valueChanged)
         tableView.insertSubview(refresh, at: 0)
@@ -51,6 +51,14 @@ class NowPlayViewController: UIViewController,UITableViewDataSource {
         }
         task.resume()
     }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let cell = sender as! UITableViewCell
+        if let indexPath = tableView.indexPath(for: cell){
+            let movie = movies[indexPath.row]
+            let detailViewController = segue.destination as! DetailViewController
+            detailViewController.movie = movie
+        }
+    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return movies.count
     }
@@ -70,12 +78,12 @@ class NowPlayViewController: UIViewController,UITableViewDataSource {
     }
     
     
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
     
-
+    
 }
